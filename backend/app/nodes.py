@@ -1,7 +1,7 @@
-from llm import llm
+from .llm import llm
 import json
-from medicine_db import medicine_db
-from hospital_finder import find_nearby_hospitals
+from .medicine_db import medicine_db
+from .hospital_finder import find_nearby_hospitals
 
 
 def symptom_node(state):

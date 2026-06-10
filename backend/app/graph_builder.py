@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, END
-from state import DoctorState
+from .state import DoctorState
 
-from nodes import (
+from .nodes import (
     symptom_node,
     analysis_node,
     followup_node,
