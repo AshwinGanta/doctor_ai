@@ -1,55 +1,69 @@
 function SeverityBadge({ severity }) {
 
+    if (!severity) return null;
+
     if (severity.toLowerCase() === "high") {
 
         return (
+
             <div className="
-            bg-red-500/20
-            text-red-400
-            rounded-full
+            inline-block
             px-5
             py-2
-            inline-block
+            rounded-full
+            bg-red-500/20
+            text-red-400
             font-bold
-            shadow-lg shadow-red-500/30
-            ">
+            shadow-lg shadow-red-500/30">
+
                 HIGH
+
             </div>
+
         );
+
     }
 
     if (severity.toLowerCase() === "moderate") {
 
         return (
+
             <div className="
-            bg-yellow-500/20
-            text-yellow-300
-            rounded-full
+            inline-block
             px-5
             py-2
-            inline-block
+            rounded-full
+            bg-yellow-500/20
+            text-yellow-300
             font-bold
-            ">
+            shadow-lg shadow-yellow-500/30">
+
                 MODERATE
+
             </div>
+
         );
+
     }
 
     return (
 
         <div className="
-        bg-green-500/20
-        text-green-400
-        rounded-full
+        inline-block
         px-5
         py-2
-        inline-block
+        rounded-full
+        bg-green-500/20
+        text-green-400
         font-bold
-        ">
+        shadow-lg shadow-green-500/30">
+
             LOW
+
         </div>
 
     );
+
 }
 
 export default SeverityBadge;
