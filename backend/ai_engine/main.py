@@ -1,5 +1,5 @@
-from graph_builder import graph
-from nodes import hospital_node
+from backend.ai_engine.graph_builder import graph
+from backend.ai_engine.nodes import hospital_node
 
 print("Enter your symptoms:")
 symptoms = input()
