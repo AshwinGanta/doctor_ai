@@ -7,12 +7,14 @@ from ai_engine.graph_builder import graph
 @api_view(["POST"])
 def analyze(request):
 
-    symptoms = request.data["symptoms"]
+    symptoms = request.data.get("symptoms")
 
-    result = graph.invoke({
+    result = graph.invoke(
 
-        "symptoms": symptoms
+        {
+            "symptoms": symptoms
+        }
 
-    })
+    )
 
     return Response(result)

@@ -106,8 +106,6 @@ Return only JSON.
             "tests": data.get("tests", []),
             "diagnosis": data.get("diagnosis", ""),
             "confidence": confidence,
-            "medicines": data.get("medicines", []),
-            "home_remedies": data.get("home_remedies", [])
         }
 
     except Exception as e:
@@ -115,16 +113,16 @@ Return only JSON.
         print("\nError:", e)
 
         return {
-            "severity": "unknown",
-            "specialist": "Unknown",
-            "condition": "Unable to determine",
-            "urgency": "unknown",
-            "first_aid": "None",
-            "tests": [],
-            "diagnosis": "Could not analyze symptoms.",
-            "confidence": 0,
-            "medicines": [],
-            "home_remedies": []
+            "severity":"",
+            "specialist":"",
+            "condition":"",
+            "urgency":"",
+            "first_aid":"",
+            "tests":[],
+            "diagnosis":"",
+            "confidence":0,
+            "medicines":[],
+            "home_remedies":[]
         }
 
 
@@ -190,6 +188,9 @@ def route_severity(state):
         "critical"
     ]
 
+    print("Severity =", severity)
+    print("Urgency =", urgency)
+
     if urgency in emergency_urgencies or severity in emergency_severities:
         return "emergency"
 
@@ -208,25 +209,38 @@ def specialist_router_node(state):
 
 def treatment_node(state):
 
+    print("\nTreatment node running...")
+
     condition = state.get("condition", "").lower()
+
+    print("Condition =", condition)
 
     medicines = []
     remedies = []
 
     for keyword, info in medicine_db.items():
 
+        print("Checking:", keyword)
+
         if keyword in condition:
+
+            print("MATCH FOUND:", keyword)
 
             medicines = info["medicines"]
             remedies = info["home_remedies"]
 
             break
 
-    return {
-        "medicines": medicines,
-        "home_remedies": remedies
-    }
+    print("Medicines =", medicines)
+    print("Home remedies =", remedies)
 
+    return {
+
+        "medicines": medicines,
+
+        "home_remedies": remedies
+
+    }
 
 def hospital_node(state):
 

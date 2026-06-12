@@ -1,10 +1,31 @@
 medicine_db = {
 
+    "viral illness": {
+        "medicines": [
+            "Paracetamol",
+            "Ibuprofen"
+        ],
+        "home_remedies": [
+            "Drink plenty of water",
+            "Take adequate rest",
+            "Warm soups"
+        ]
+    },
+
+    "infection": {
+        "medicines": [
+            "Paracetamol"
+        ],
+        "home_remedies": [
+            "Stay hydrated",
+            "Rest well"
+        ]
+    },
+
     "fever": {
         "medicines": [
             "Paracetamol (Dolo 650)"
         ],
-
         "home_remedies": [
             "Drink plenty of water",
             "Take adequate rest"
@@ -15,7 +36,6 @@ medicine_db = {
         "medicines": [
             "Paracetamol"
         ],
-
         "home_remedies": [
             "Sleep well",
             "Hydrate properly"
@@ -26,7 +46,6 @@ medicine_db = {
         "medicines": [
             "Cetirizine"
         ],
-
         "home_remedies": [
             "Steam inhalation",
             "Warm water"
@@ -38,7 +57,6 @@ medicine_db = {
             "Gelusil",
             "ENO"
         ],
-
         "home_remedies": [
             "Avoid spicy foods"
         ]

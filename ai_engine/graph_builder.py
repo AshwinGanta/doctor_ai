@@ -7,13 +7,14 @@ from .nodes import (
     followup_node,
     emergency_node,
     treatment_node,
+    hospital_node,
     route_severity,
     severity_router_node
 )
 
 builder = StateGraph(DoctorState)
 
-# ---------------- Nodes ----------------
+# ---------- Nodes ----------
 
 builder.add_node(
     "symptoms",
@@ -45,7 +46,12 @@ builder.add_node(
     treatment_node
 )
 
-# ---------------- Entry Point ----------------
+builder.add_node(
+    "hospital",
+    hospital_node
+)
+
+# ---------- Entry Point ----------
 
 builder.set_entry_point(
     "symptoms"
@@ -65,7 +71,7 @@ builder.add_edge(
     "severity_router"
 )
 
-# ---------------- Severity Router ----------------
+# ---------- Conditional Routing ----------
 
 builder.add_conditional_edges(
     "severity_router",
@@ -76,7 +82,7 @@ builder.add_conditional_edges(
     }
 )
 
-# ---------------- Ending ----------------
+# ---------- Ending ----------
 
 builder.add_edge(
     "followup",
@@ -89,10 +95,8 @@ builder.add_edge(
 )
 
 builder.add_edge(
-    "treatment",
+    "hospital",
     END
 )
-
-# ---------------- Compile ----------------
 
 graph = builder.compile()
