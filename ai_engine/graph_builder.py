@@ -7,7 +7,6 @@ from .nodes import (
     followup_node,
     emergency_node,
     treatment_node,
-    hospital_node,
     route_severity,
     severity_router_node
 )
@@ -44,11 +43,6 @@ builder.add_node(
 builder.add_node(
     "treatment",
     treatment_node
-)
-
-builder.add_node(
-    "hospital",
-    hospital_node
 )
 
 # ---------- Entry Point ----------
@@ -95,7 +89,7 @@ builder.add_edge(
 )
 
 builder.add_edge(
-    "hospital",
+    "treatment",
     END
 )
 
