@@ -397,10 +397,21 @@ Format:
 
                 break
 
+
     return {
 
-        "hospital_names": names,
+        "hospital_names": [
 
-        "hospital_distances": distances
+            {
+
+                "name": names[i],
+
+                "distance": distances[i]
+
+            }
+
+            for i in range(len(names))
+
+        ]
 
     }

@@ -26,11 +26,12 @@ function InputBox() {
     const [loading, setLoading] = useState(false);
     const [showHospitalQuestion, setShowHospitalQuestion] = useState(false);
     const [showAddressInput, setShowAddressInput] = useState(false);
-    
+
     // Hospital API states
     const [address, setAddress] = useState("");
     const [pincode, setPincode] = useState("");
     const [hospitals, setHospitals] = useState([]);
+    const [hospitalLoading, setHospitalLoading] = useState(false);
 
     async function analyzeSymptoms() {
         try {
@@ -66,21 +67,47 @@ function InputBox() {
     }
 
     async function findHospitals() {
+
         try {
+
+            setHospitalLoading(true);
+
             const response = await API.post(
+
                 "/hospitals/",
+
                 {
+
                     address: address,
                     pincode: pincode,
                     specialist: result.specialist
+
                 }
+
             );
 
-            setHospitals(response.data.hospital_names);
-        } catch (error) {
-            console.log(error);
-            alert("Unable to fetch hospitals");
+            setHospitals(
+
+                response.data.hospital_names
+
+            );
+
         }
+
+        catch (error) {
+
+            console.log(error);
+
+            alert("Unable to fetch hospitals");
+
+        }
+
+        finally {
+
+            setHospitalLoading(false);
+
+        }
+
     }
 
     const isEmergency =
@@ -313,44 +340,100 @@ function InputBox() {
                                 "
                             />
                             <button
+
                                 onClick={findHospitals}
+
+                                disabled={hospitalLoading}
+
                                 className="
-                                    bg-blue-500
-                                    hover:bg-blue-600
-                                    px-6
-                                    py-3
-                                    rounded-2xl
-                                    text-white
-                                    mt-5
-                                "
+    bg-blue-500
+    hover:bg-blue-600
+    px-6
+    py-3
+    rounded-2xl
+    text-white
+    mt-5
+    disabled:opacity-60
+    "
+
                             >
-                                Find Hospitals
+
+                                {
+
+                                    hospitalLoading
+
+                                        ?
+
+                                        "Finding Hospitals..."
+
+                                        :
+
+                                        "Find Hospitals"
+
+                                }
+
                             </button>
                         </div>
                     )}
 
+
+                    
                     {/* 3. HOSPITAL LIST CARD */}
-                    {hospitals.length > 0 && (
-                        <div className="bg-white/10 p-6 rounded-3xl">
-                            <h2 className="text-2xl text-white">
-                                Nearby Hospitals
-                            </h2>
-                            {hospitals.map((hospital, index) => (
-                                <div
-                                    key={index}
-                                    className="
-                                        bg-white/10
-                                        p-4
-                                        rounded-2xl
-                                        mt-4
-                                        text-white
-                                    "
-                                >
-                                    {hospital}
-                                </div>
-                            ))}
-                        </div>
-                    )}
+{hospitals.length > 0 && (
+
+    <div className="bg-white/10 p-6 rounded-3xl">
+
+        <h2 className="text-2xl text-white">
+
+            Nearby Hospitals
+
+        </h2>
+
+        {
+
+            hospitals.map(
+
+                (hospital,index)=>
+
+                <div
+
+                    key={index}
+
+                    className="
+                    bg-white/10
+                    p-4
+                    rounded-2xl
+                    mt-4
+                    text-white
+                    "
+
+                >
+
+                    <div className="flex justify-between items-center">
+
+                        <span>
+
+                            {hospital.name}
+
+                        </span>
+
+                        <span className="text-cyan-400 font-semibold">
+
+                            {hospital.distance} km
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            )
+
+        }
+
+    </div>
+
+)}
 
                 </div>
             )}
