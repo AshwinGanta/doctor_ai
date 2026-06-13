@@ -24,6 +24,8 @@ function InputBox() {
     const [symptoms, setSymptoms] = useState("");
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showHospitalQuestion, setShowHospitalQuestion] = useState(false);
+    const [showAddressInput, setShowAddressInput] = useState(false);
 
     async function analyzeSymptoms() {
 
@@ -39,6 +41,17 @@ function InputBox() {
             );
 
             setResult(response.data);
+            if (response.data.severity.toLowerCase() === "high") {
+
+                setShowAddressInput(true);
+
+            }
+
+            else {
+
+                setShowHospitalQuestion(true);
+
+            }
 
         }
 
@@ -74,10 +87,9 @@ function InputBox() {
                 duration-700
                 transition-all
 
-                ${
-                    isEmergency
-                        ? "bg-red-500/10 border border-red-500 shadow-red-500/30"
-                        : "bg-white/10 border border-transparent"
+                ${isEmergency
+                    ? "bg-red-500/10 border border-red-500 shadow-red-500/30"
+                    : "bg-white/10 border border-transparent"
                 }
             `}
         >
@@ -141,10 +153,9 @@ function InputBox() {
                     text-center
                     duration-700
 
-                    ${
-                        isEmergency
-                            ? "text-red-400"
-                            : "text-white"
+                    ${isEmergency
+                        ? "text-red-400"
+                        : "text-white"
                     }
                 `}
             >
@@ -295,8 +306,85 @@ function InputBox() {
                         <HomeRemedyCard
                             remedies={result.home_remedies}
                         />
-
                     }
+                {
+    showHospitalQuestion && !showAddressInput &&
+
+    <div className="
+        bg-white/10
+        p-6
+        rounded-3xl
+    ">
+
+        <h2 className="
+            text-2xl
+            text-white
+        ">
+
+            Would you like nearby hospitals?
+
+        </h2>
+
+        <div className="
+            flex
+            gap-4
+            mt-5
+        ">
+
+            <button
+
+                onClick={() => {
+
+                    setShowAddressInput(true);
+                    setShowHospitalQuestion(false);
+
+                }}
+
+                className="
+                    bg-green-500
+                    hover:bg-green-600
+                    px-6
+                    py-3
+                    rounded-2xl
+                    text-white
+                    duration-300
+                "
+
+            >
+
+                YES
+
+            </button>
+
+
+            <button
+
+                onClick={() => {
+
+                    setShowHospitalQuestion(false);
+
+                }}
+
+                className="
+                    bg-red-500
+                    hover:bg-red-600
+                    px-6
+                    py-3
+                    rounded-2xl
+                    text-white
+                    duration-300
+                "
+
+            >
+
+                NO
+
+            </button>
+
+        </div>
+
+    </div>
+}  
 
                 </div>
 

@@ -113,16 +113,16 @@ Return only JSON.
         print("\nError:", e)
 
         return {
-            "severity":"",
-            "specialist":"",
-            "condition":"",
-            "urgency":"",
-            "first_aid":"",
-            "tests":[],
-            "diagnosis":"",
-            "confidence":0,
-            "medicines":[],
-            "home_remedies":[]
+            "severity": "",
+            "specialist": "",
+            "condition": "",
+            "urgency": "",
+            "first_aid": "",
+            "tests": [],
+            "diagnosis": "",
+            "confidence": 0,
+            "medicines": [],
+            "home_remedies": []
         }
 
 
@@ -209,30 +209,52 @@ def specialist_router_node(state):
 
 def treatment_node(state):
 
-    print("\nTreatment node running...")
+    text = (
 
-    condition = state.get("condition", "").lower()
+        state.get("symptoms", "") +
 
-    print("Condition =", condition)
+        " " +
+
+        state.get("condition", "") +
+
+        " " +
+
+        state.get("diagnosis", "")
+
+    ).lower()
 
     medicines = []
     remedies = []
 
     for keyword, info in medicine_db.items():
 
-        print("Checking:", keyword)
+        if keyword.lower() in text:
 
-        if keyword in condition:
+            medicines.extend(info["medicines"])
+            remedies.extend(info["home_remedies"])
 
-            print("MATCH FOUND:", keyword)
+    medicines = list(set(medicines))
+    remedies = list(set(remedies))
 
-            medicines = info["medicines"]
-            remedies = info["home_remedies"]
+    # default values if nothing matched
 
-            break
+    if len(medicines) == 0:
 
-    print("Medicines =", medicines)
-    print("Home remedies =", remedies)
+        medicines = [
+
+            "Paracetamol"
+
+        ]
+
+    if len(remedies) == 0:
+
+        remedies = [
+
+            "Take adequate rest",
+
+            "Drink plenty of water"
+
+        ]
 
     return {
 
@@ -241,6 +263,8 @@ def treatment_node(state):
         "home_remedies": remedies
 
     }
+
+
 def emergency_node(state):
 
     return {
@@ -249,6 +273,7 @@ def emergency_node(state):
         "Seek Immediate Medical Attention"
 
     }
+
 
 def hospital_node(state):
 

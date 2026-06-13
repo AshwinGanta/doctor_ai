@@ -1,5 +1,40 @@
 medicine_db = {
 
+    "headache": {
+        "medicines": ["Paracetamol"],
+        "home_remedies": [
+            "Sleep well",
+            "Stay hydrated"
+        ]
+    },
+
+    "fever": {
+        "medicines": ["Paracetamol (Dolo 650)"],
+        "home_remedies": [
+            "Drink plenty of water",
+            "Take adequate rest"
+        ]
+    },
+
+    "cold": {
+        "medicines": ["Cetirizine"],
+        "home_remedies": [
+            "Steam inhalation",
+            "Warm water"
+        ]
+    },
+
+    "infection": {
+        "medicines": [
+            "Paracetamol",
+            "Azithromycin"
+        ],
+        "home_remedies": [
+            "Rest well",
+            "Stay hydrated"
+        ]
+    },
+
     "viral illness": {
         "medicines": [
             "Paracetamol",
@@ -7,58 +42,82 @@ medicine_db = {
         ],
         "home_remedies": [
             "Drink plenty of water",
-            "Take adequate rest",
-            "Warm soups"
+            "Warm soups",
+            "Adequate rest"
         ]
     },
 
-    "infection": {
+    "eye": {
+        "medicines": [
+            "Artificial tears"
+        ],
+        "home_remedies": [
+            "Avoid rubbing eyes",
+            "Rest the eyes",
+            "Use cold compress"
+        ]
+    },
+
+    "hand": {
+        "medicines": [
+            "Paracetamol",
+            "Ibuprofen"
+        ],
+        "home_remedies": [
+            "Rest the hand",
+            "Apply ice packs"
+        ]
+    },
+
+    "arm": {
+        "medicines": [
+            "Paracetamol",
+            "Ibuprofen"
+        ],
+        "home_remedies": [
+            "Rest the arm",
+            "Ice compression"
+        ]
+    },
+
+    "leg": {
+        "medicines": [
+            "Paracetamol",
+            "Ibuprofen"
+        ],
+        "home_remedies": [
+            "Rest",
+            "Ice packs",
+            "Avoid heavy activity"
+        ]
+    },
+
+    "bone": {
         "medicines": [
             "Paracetamol"
         ],
         "home_remedies": [
-            "Stay hydrated",
-            "Rest well"
+            "Immobilize the area",
+            "Apply ice"
         ]
     },
 
-    "fever": {
+    "muscle": {
         "medicines": [
-            "Paracetamol (Dolo 650)"
-        ],
-        "home_remedies": [
-            "Drink plenty of water",
-            "Take adequate rest"
-        ]
-    },
-
-    "headache": {
-        "medicines": [
+            "Ibuprofen",
             "Paracetamol"
         ],
         "home_remedies": [
-            "Sleep well",
-            "Hydrate properly"
+            "Rest",
+            "Elevation",
+            "Ice packs"
         ]
     },
 
-    "cold": {
-        "medicines": [
-            "Cetirizine"
-        ],
+    "heart": {
+        "medicines": [],
         "home_remedies": [
-            "Steam inhalation",
-            "Warm water"
-        ]
-    },
-
-    "acidity": {
-        "medicines": [
-            "Gelusil",
-            "ENO"
-        ],
-        "home_remedies": [
-            "Avoid spicy foods"
+            "Seek immediate medical attention"
         ]
     }
 }
