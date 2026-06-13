@@ -241,6 +241,14 @@ def treatment_node(state):
         "home_remedies": remedies
 
     }
+def emergency_node(state):
+
+    return {
+
+        "emergency_message":
+        "Seek Immediate Medical Attention"
+
+    }
 
 def hospital_node(state):
 

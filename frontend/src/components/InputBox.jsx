@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import {
+    Search,
+    HeartPulse,
+    Activity,
+    Stethoscope,
+    Brain
+} from "lucide-react";
 
 import { API } from "../services/api";
 
@@ -25,11 +31,12 @@ function InputBox() {
 
             setLoading(true);
 
-            const response = await API.post("/analyze", {
-
-                symptoms: symptoms
-
-            });
+            const response = await API.post(
+                "/analyze/",
+                {
+                    symptoms: symptoms
+                }
+            );
 
             setResult(response.data);
 
@@ -38,6 +45,8 @@ function InputBox() {
         catch (error) {
 
             console.log(error);
+
+            alert("Failed to analyze symptoms");
 
         }
 
@@ -49,18 +58,96 @@ function InputBox() {
 
     }
 
+    const isEmergency =
+        result?.severity?.toLowerCase() === "high" ||
+        result?.emergency_message;
+
     return (
 
-        <div className="
-        bg-white/10
-        backdrop-blur-3xl
-        p-10
-        rounded-[40px]
-        shadow-2xl
-        w-[700px]
-        ">
+        <div
+            className={`
+                backdrop-blur-3xl
+                p-10
+                rounded-[40px]
+                shadow-2xl
+                w-[700px]
+                duration-700
+                transition-all
 
-            <h1 className="text-6xl font-bold text-white text-center">
+                ${
+                    isEmergency
+                        ? "bg-red-500/10 border border-red-500 shadow-red-500/30"
+                        : "bg-white/10 border border-transparent"
+                }
+            `}
+        >
+
+            {
+
+                isEmergency &&
+
+                <div
+                    className="
+                    mb-8
+                    bg-red-500/20
+                    border
+                    border-red-500
+                    rounded-3xl
+                    p-5
+                    text-red-300
+                    font-bold
+                    text-center
+                    animate-pulse
+                "
+                >
+
+                    ⚠ EMERGENCY DETECTED
+
+                    <br />
+
+                    Seek Immediate Medical Attention
+
+                    {
+
+                        result?.emergency_message &&
+
+                        <>
+                            <br />
+
+                            <span className="
+                            text-sm
+                            font-normal
+                            text-red-200
+                            mt-2
+                            block
+                            ">
+
+                                {result.emergency_message}
+
+                            </span>
+
+                        </>
+
+                    }
+
+                </div>
+
+            }
+
+            <h1
+                className={`
+                    text-6xl
+                    font-bold
+                    text-center
+                    duration-700
+
+                    ${
+                        isEmergency
+                            ? "text-red-400"
+                            : "text-white"
+                    }
+                `}
+            >
 
                 Doctor AI
 
@@ -71,7 +158,6 @@ function InputBox() {
                 AI Powered Medical Assistant
 
             </p>
-
 
             <div className="flex mt-10 gap-4">
 
@@ -84,13 +170,15 @@ function InputBox() {
                     placeholder="Describe your symptoms..."
 
                     className="
-                    flex-1
-                    rounded-3xl
-                    bg-white/10
-                    p-5
-                    text-white
-                    outline-none
-                    text-xl
+                        flex-1
+                        rounded-3xl
+                        bg-white/10
+                        p-5
+                        text-white
+                        outline-none
+                        text-xl
+                        placeholder-gray-400
+                        focus:bg-white/20
                     "
 
                 />
@@ -99,27 +187,32 @@ function InputBox() {
 
                     onClick={analyzeSymptoms}
 
+                    disabled={loading}
+
                     className="
-                    bg-blue-500
-                    hover:bg-blue-600
-                    hover:scale-105
-                    duration-300
-                    rounded-3xl
-                    px-8
-                    text-white
-                    flex
-                    items-center
-                    justify-center
+                        bg-blue-500
+                        hover:bg-blue-600
+                        hover:scale-105
+                        duration-300
+                        rounded-3xl
+                        px-8
+                        text-white
+                        flex
+                        items-center
+                        justify-center
+                        shadow-lg
+                        shadow-blue-500/30
+                        disabled:opacity-50
+                        disabled:hover:scale-100
                     "
 
                 >
 
-                    <Search />
+                    <Search className="w-6 h-6" />
 
                 </button>
 
             </div>
-
 
             {
 
@@ -129,7 +222,6 @@ function InputBox() {
 
             }
 
-
             {
 
                 result && !loading &&
@@ -137,63 +229,74 @@ function InputBox() {
                 <div className="mt-10 space-y-6">
 
                     <ResultCard
-
                         condition={result.condition}
-
                         specialist={result.specialist}
-
                         diagnosis={result.diagnosis}
-
                     />
-
 
                     <SeverityBadge
-
                         severity={result.severity}
-
                     />
 
+                    {
 
-                    <UrgencyCard
+                        result.urgency &&
 
-                        urgency={result.urgency}
+                        <UrgencyCard
+                            urgency={result.urgency}
+                        />
 
-                    />
+                    }
 
+                    {
 
-                    <ConfidenceCard
+                        result.confidence &&
 
-                        confidence={result.confidence}
+                        <ConfidenceCard
+                            confidence={result.confidence}
+                        />
 
-                    />
+                    }
 
+                    {
 
-                    <FirstAidCard
+                        result.first_aid &&
 
-                        firstAid={result.first_aid}
+                        <FirstAidCard
+                            firstAid={result.first_aid}
+                        />
 
-                    />
+                    }
 
+                    {
 
-                    <TestCard
+                        result.tests &&
 
-                        tests={result.tests}
+                        <TestCard
+                            tests={result.tests}
+                        />
 
-                    />
+                    }
 
+                    {
 
-                    <MedicineCard
+                        result.medicines &&
 
-                        medicines={result.medicines}
+                        <MedicineCard
+                            medicines={result.medicines}
+                        />
 
-                    />
+                    }
 
+                    {
 
-                    <HomeRemedyCard
+                        result.home_remedies &&
 
-                        remedies={result.home_remedies}
+                        <HomeRemedyCard
+                            remedies={result.home_remedies}
+                        />
 
-                    />
+                    }
 
                 </div>
 

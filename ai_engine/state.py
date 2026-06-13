@@ -16,6 +16,8 @@ class DoctorState(TypedDict):
     confidence: int
 
     emergency_message: str
+
+    hospital_question: str
     advice: str
 
     followup_question: str

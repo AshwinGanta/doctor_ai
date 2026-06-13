@@ -13,7 +13,7 @@ from .nodes import (
 
 builder = StateGraph(DoctorState)
 
-# ---------- Nodes ----------
+# ---------------- Nodes ----------------
 
 builder.add_node(
     "symptoms",
@@ -45,7 +45,7 @@ builder.add_node(
     treatment_node
 )
 
-# ---------- Entry Point ----------
+# ---------------- Entry Point ----------------
 
 builder.set_entry_point(
     "symptoms"
@@ -65,7 +65,7 @@ builder.add_edge(
     "severity_router"
 )
 
-# ---------- Conditional Routing ----------
+# ---------------- Conditional Routing ----------------
 
 builder.add_conditional_edges(
     "severity_router",
@@ -76,7 +76,7 @@ builder.add_conditional_edges(
     }
 )
 
-# ---------- Ending ----------
+# ---------------- Ending ----------------
 
 builder.add_edge(
     "followup",
@@ -92,5 +92,7 @@ builder.add_edge(
     "treatment",
     END
 )
+
+# ---------------- Compile ----------------
 
 graph = builder.compile()
