@@ -4,18 +4,30 @@ import requests
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
+# Load environment variables
 load_dotenv()
 
 API_KEY = os.getenv("GEOAPIFY_API_KEY")
 
 
-def find_nearby_hospitals(address, pincode, specialist):
-
+def find_nearby_hospitals(address, pincode, specialist=None):
     geolocator = Nominatim(user_agent="doctor_ai")
 
-    query = f"{address}, {pincode}"
+    # Try different location queries
+    queries = [
+        f"{address}, {pincode}, India",
+        f"{address}, India",
+        f"{pincode}, India"
+    ]
 
-    location = geolocator.geocode(query)
+    location = None
+
+    for query in queries:
+        print("Trying:", query)
+        location = geolocator.geocode(query, timeout=10)
+
+        if location is not None:
+            break
 
     if location is None:
         print("Could not find location.")
@@ -27,6 +39,7 @@ def find_nearby_hospitals(address, pincode, specialist):
     print("Latitude:", lat)
     print("Longitude:", lon)
 
+    # Geoapify API request
     url = (
         "https://api.geoapify.com/v2/places"
         f"?categories=healthcare"
@@ -37,8 +50,6 @@ def find_nearby_hospitals(address, pincode, specialist):
 
     response = requests.get(url)
 
-    #print("Status code:", response.status_code)
-
     if response.status_code != 200:
         print(response.text)
         return []
@@ -48,17 +59,16 @@ def find_nearby_hospitals(address, pincode, specialist):
     if "features" not in data:
         return []
 
-   
-    #print("Features found:", len(data["features"]))
-
+    # Words to ignore
     ignore_words = [
-
         "blood",
         "blood bank",
 
         "pharmacy",
         "chemist",
         "medical store",
+        "medical shop",
+        "medical stores",
 
         "laboratory",
         "lab",
@@ -72,13 +82,10 @@ def find_nearby_hospitals(address, pincode, specialist):
         "scan",
         "xray",
 
-        "medical shop",
-        "medical shop",
-        "medical stores",
         "fancy stores",
         "sub centre",
         "subcentre",
-        "tent house"
+        "tent house",
 
         "fertility",
 
@@ -102,33 +109,27 @@ def find_nearby_hospitals(address, pincode, specialist):
     ]
 
     hospitals = []
-
     seen = set()
 
     for hospital in data["features"]:
-
         properties = hospital["properties"]
 
-        categories = properties.get(
-            "categories",
-            []
-        )
+        categories = properties.get("categories", [])
 
+        # Skip pharmacies
         if "healthcare.pharmacy" in categories:
             continue
 
-        name = properties.get(
-            "name",
-            "Unknown Hospital"
-        )
-
+        name = properties.get("name", "Unknown Hospital")
         name_lower = name.lower()
 
+        # Remove duplicates
         if name_lower in seen:
             continue
 
         seen.add(name_lower)
 
+        # Ignore unwanted places
         if any(word in name_lower for word in ignore_words):
             continue
 
@@ -142,6 +143,7 @@ def find_nearby_hospitals(address, pincode, specialist):
 
         score = 0
 
+        # Give preference to better hospitals
         if "super speciality" in name_lower:
             score += 50
 
@@ -154,6 +156,7 @@ def find_nearby_hospitals(address, pincode, specialist):
         if "multispeciality" in name_lower:
             score += 30
 
+        # Closer hospitals get higher score
         score -= distance
 
         hospitals.append(
@@ -164,9 +167,8 @@ def find_nearby_hospitals(address, pincode, specialist):
             )
         )
 
-    hospitals.sort(
-        reverse=True
-    )
+    # Sort by score
+    hospitals.sort(reverse=True)
 
     result = []
 
@@ -174,11 +176,12 @@ def find_nearby_hospitals(address, pincode, specialist):
 
         result.append(
             (
-                distance,
+                round(distance, 2),
                 name
             )
         )
 
-    #print("Hospitals found:", result[:10])
+    # Sort by distance
+    result.sort()
 
     return result[:10]
