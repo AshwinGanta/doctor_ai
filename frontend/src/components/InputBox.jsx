@@ -23,6 +23,7 @@ function InputBox() {
 
     const [symptoms, setSymptoms] = useState("");
     const [result, setResult] = useState(null);
+    const [reportId, setReportId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [showHospitalQuestion, setShowHospitalQuestion] = useState(false);
     const [showAddressInput, setShowAddressInput] = useState(false);
@@ -45,6 +46,8 @@ function InputBox() {
             );
 
             setResult(response.data);
+
+            setReportId(response.data.report_id);
             const severity = response.data.severity?.toLowerCase();
 
             if (
@@ -72,19 +75,12 @@ function InputBox() {
 
             setHospitalLoading(true);
 
-            const response = await API.post(
-
-                "/hospitals/",
-
-                {
-
-                    address: address,
-                    pincode: pincode,
-                    specialist: result.specialist
-
-                }
-
-            );
+            const response = await API.post("/hospitals/", {
+                address,
+                pincode,
+                specialist,
+                report_id: reportId
+            });
 
             setHospitals(
 
@@ -377,29 +373,29 @@ function InputBox() {
                     )}
 
 
-                    
+
                     {/* 3. HOSPITAL LIST CARD */}
-{hospitals.length > 0 && (
+                    {hospitals.length > 0 && (
 
-    <div className="bg-white/10 p-6 rounded-3xl">
+                        <div className="bg-white/10 p-6 rounded-3xl">
 
-        <h2 className="text-2xl text-white">
+                            <h2 className="text-2xl text-white">
 
-            Nearby Hospitals
+                                Nearby Hospitals
 
-        </h2>
+                            </h2>
 
-        {
+                            {
 
-            hospitals.map(
+                                hospitals.map(
 
-                (hospital,index)=>
+                                    (hospital, index) =>
 
-                <div
+                                        <div
 
-                    key={index}
+                                            key={index}
 
-                    className="
+                                            className="
                     bg-white/10
                     p-4
                     rounded-2xl
@@ -407,33 +403,33 @@ function InputBox() {
                     text-white
                     "
 
-                >
+                                        >
 
-                    <div className="flex justify-between items-center">
+                                            <div className="flex justify-between items-center">
 
-                        <span>
+                                                <span>
 
-                            {hospital.name}
+                                                    {hospital.name}
 
-                        </span>
+                                                </span>
 
-                        <span className="text-cyan-400 font-semibold">
+                                                <span className="text-cyan-400 font-semibold">
 
-                            {hospital.distance} km
+                                                    {hospital.distance} km
 
-                        </span>
+                                                </span>
 
-                    </div>
+                                            </div>
 
-                </div>
+                                        </div>
 
-            )
+                                )
 
-        }
+                            }
 
-    </div>
+                        </div>
 
-)}
+                    )}
 
                 </div>
             )}
