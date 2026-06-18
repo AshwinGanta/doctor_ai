@@ -44,6 +44,8 @@ def hospitals(request):
     specialist = request.data.get("specialist")
     report_id = request.data.get("report_id")
 
+    print("Hospital node running...")
+
     result = hospital_node(
         {
             "address": address,
@@ -52,12 +54,17 @@ def hospitals(request):
         }
     )
 
-    report = DiagnosisReport.objects.get(id=report_id)
+    if report_id:
+        try:
+            report = DiagnosisReport.objects.get(id=report_id)
 
-    report.address = address
-    report.pincode = pincode
-    report.hospital_names = result.get("hospitals", [])
+            report.address = address
+            report.pincode = pincode
+            report.hospital_names = result.get("hospitals", [])
 
-    report.save()
+            report.save()
+
+        except DiagnosisReport.DoesNotExist:
+            print("Report not found")
 
     return Response(result)

@@ -46,7 +46,6 @@ function InputBox() {
             );
 
             setResult(response.data);
-
             setReportId(response.data.report_id);
             const severity = response.data.severity?.toLowerCase();
 
@@ -75,12 +74,15 @@ function InputBox() {
 
             setHospitalLoading(true);
 
-            const response = await API.post("/hospitals/", {
-                address,
-                pincode,
-                specialist,
-                report_id: reportId
-            });
+            const response = await API.post(
+                "/hospitals/",
+                {
+                    address: address,
+                    pincode: pincode,
+                    specialist: result.specialist,
+                    report_id: reportId
+                }
+            );
 
             setHospitals(
 
