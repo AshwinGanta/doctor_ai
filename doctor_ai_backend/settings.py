@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'diagnosis',
-    'hospitals',
     'records',
 
 ]

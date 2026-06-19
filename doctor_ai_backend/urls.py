@@ -7,6 +7,4 @@ urlpatterns = [
 
     path("api/", include("diagnosis.urls")),
 
-    path("api/hospitals/", include("hospitals.urls")),
-
 ]

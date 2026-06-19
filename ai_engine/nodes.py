@@ -134,14 +134,6 @@ def followup_node(state):
     }
 
 
-def emergency_node(state):
-
-    return {
-        "emergency_message":
-        "Go to the nearest hospital or call emergency services immediately."
-    }
-
-
 def advice_node(state):
 
     return {
