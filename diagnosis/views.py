@@ -53,6 +53,7 @@ def hospitals(request):
             "specialist": specialist
         }
     )
+    print(result)
 
     if report_id:
         try:
@@ -60,7 +61,7 @@ def hospitals(request):
 
             report.address = address
             report.pincode = pincode
-            report.hospital_names = result.get("hospitals", [])
+            report.hospital_names = result.get("hospital_names", [])
 
             report.save()
 
