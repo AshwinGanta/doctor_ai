@@ -17,10 +17,6 @@ class DoctorState(TypedDict):
 
     emergency_message: str
 
-    hospital_question: str
-    advice: str
-
-    followup_question: str
 
     medicines: list
     home_remedies: list
