@@ -7,4 +7,5 @@ urlpatterns = [
 
     path("api/", include("diagnosis.urls")),
 
-]
+] 
+ 

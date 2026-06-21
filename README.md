@@ -15,4 +15,5 @@ Features:
 - Severity detection
 - Medicines and home remedies
 - Emergency detection
-- Nearby hospitals with distance
+- Nearby hospitals with distance 
+ 

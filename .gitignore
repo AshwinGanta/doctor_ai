@@ -9,4 +9,5 @@ __pycache__/
 *.pyc
 
 # VS Code settings
-.vscode/git rm --cached .env
+.vscode/git rm --cached .env 
+ 

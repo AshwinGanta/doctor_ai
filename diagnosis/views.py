@@ -68,4 +68,5 @@ def hospitals(request):
         except DiagnosisReport.DoesNotExist:
             print("Report not found")
 
-    return Response(result)
+    return Response(result) 
+ 
