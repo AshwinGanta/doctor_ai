@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import analyze, hospitals
+from diagnosis.views import analyze, hospitals
 
 urlpatterns = [
 
