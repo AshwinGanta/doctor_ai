@@ -153,15 +153,6 @@ def route_severity(state):
     return "normal"
 
 
-def severity_router_node(state):
-
-    return {}
-
-
-def specialist_router_node(state):
-
-    return {}
-
 
 def treatment_node(state):
 

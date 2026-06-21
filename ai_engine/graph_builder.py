@@ -6,64 +6,25 @@ from .nodes import (
     analysis_node,
     emergency_node,
     treatment_node,
-    route_severity,
-    severity_router_node
+    route_severity
 )
 
 builder = StateGraph(DoctorState)
 
-# ---------------- Nodes ----------------
+builder.add_node("symptoms", symptom_node)
+builder.add_node("analysis", analysis_node)
+builder.add_node("emergency", emergency_node)
+builder.add_node("treatment", treatment_node)
 
-builder.add_node(
-    "symptoms",
-    symptom_node
-)
-
-builder.add_node(
-    "analysis",
-    analysis_node
-)
-
-
-builder.add_node(
-    "severity_router",
-    severity_router_node
-)
-
-builder.add_node(
-    "emergency",
-    emergency_node
-)
-
-builder.add_node(
-    "treatment",
-    treatment_node
-)
-
-# ---------------- Entry Point ----------------
-
-builder.set_entry_point(
-    "symptoms"
-)
-
-# Symptoms → Analysis
+builder.set_entry_point("symptoms")
 
 builder.add_edge(
     "symptoms",
     "analysis"
 )
 
-# Analysis → Severity Router
-
-builder.add_edge(
-    "analysis",
-    "severity_router"
-)
-
-# ---------------- Conditional Routing ----------------
-
 builder.add_conditional_edges(
-    "severity_router",
+    "analysis",
     route_severity,
     {
         "emergency": "emergency",
@@ -71,9 +32,6 @@ builder.add_conditional_edges(
     }
 )
 
-# ---------------- Ending ----------------
-
-
 builder.add_edge(
     "emergency",
     END
@@ -83,7 +41,5 @@ builder.add_edge(
     "treatment",
     END
 )
-
-# ---------------- Compile ----------------
 
 graph = builder.compile()
