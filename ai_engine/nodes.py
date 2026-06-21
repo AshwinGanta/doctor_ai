@@ -126,26 +126,6 @@ Return only JSON.
         }
 
 
-def route_confidence(state):
-
-    confidence = state.get("confidence", 0)
-
-    severity = state.get("severity", "").lower()
-    urgency = state.get("urgency", "").lower()
-
-    if (
-        severity in ["high", "severe", "critical"]
-        or
-        urgency in ["emergency", "immediate", "urgent", "emergent"]
-    ):
-        return "high"
-
-    if confidence < 70:
-        return "low"
-
-    return "high"
-
-
 def route_severity(state):
 
     urgency = state.get("urgency", "").lower()
