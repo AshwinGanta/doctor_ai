@@ -27,4 +27,3 @@ class DoctorState(TypedDict):
 
     # Hospital info
     hospital_names: list
-    hospital_distances: list
