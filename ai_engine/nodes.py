@@ -126,15 +126,6 @@ Return only JSON.
         }
 
 
-
-def advice_node(state):
-
-    return {
-        "advice":
-        "Follow doctor's instructions and monitor symptoms."
-    }
-
-
 def route_confidence(state):
 
     confidence = state.get("confidence", 0)
