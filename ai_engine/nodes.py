@@ -126,13 +126,6 @@ Return only JSON.
         }
 
 
-def followup_node(state):
-
-    return {
-        "followup_question":
-        "Please describe your symptoms in more detail."
-    }
-
 
 def advice_node(state):
 

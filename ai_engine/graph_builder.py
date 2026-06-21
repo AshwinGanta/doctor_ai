@@ -4,7 +4,6 @@ from .state import DoctorState
 from .nodes import (
     symptom_node,
     analysis_node,
-    followup_node,
     emergency_node,
     treatment_node,
     route_severity,
@@ -25,10 +24,6 @@ builder.add_node(
     analysis_node
 )
 
-builder.add_node(
-    "followup",
-    followup_node
-)
 
 builder.add_node(
     "severity_router",
@@ -78,10 +73,6 @@ builder.add_conditional_edges(
 
 # ---------------- Ending ----------------
 
-builder.add_edge(
-    "followup",
-    END
-)
 
 builder.add_edge(
     "emergency",
