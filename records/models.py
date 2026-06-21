@@ -60,3 +60,4 @@ class DiagnosisReport(models.Model):
     def __str__(self):
 
         return self.condition
+
